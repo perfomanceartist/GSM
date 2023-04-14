@@ -20,6 +20,14 @@ while (true)
     Console.WriteLine("Enter data to send:");
     string? data = Console.ReadLine();
     if (data == null) continue;
-
+    client.SendData(data);
+    string received;
+    bool res = client.ReceiveData(out received);
+    if (!res)
+    {
+        Console.WriteLine("Got an error!");
+        break;
+    }
+    Console.WriteLine("Received Data: " + received); 
 }
 

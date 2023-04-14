@@ -18,10 +18,12 @@ namespace GSMLib
         public NetworkStream stream;
         public Socket clientSocket;
         public Cryptography.AuthTriplet authTriplet;
+        public Cryptography.A5 encryptor;
         public Server()
         {
             tcpListener = new TcpListener(IPAddress.Any, serverPort);
             tcpListener.Start();
+            encryptor = new A5();
         }
 
         ~Server()
@@ -34,7 +36,7 @@ namespace GSMLib
             tcpListener.Start();
             while (true)
             {
-                
+                Console.WriteLine("---------------------------------------");
                 try
                 {
                     clientSocket = tcpListener.AcceptSocket();
@@ -53,6 +55,14 @@ namespace GSMLib
                     continue;
                 }
                 Console.WriteLine("Client authenticated");
+
+                while (clientSocket.Connected)
+                {
+                    string received;
+                    if (!ReceiveData(out received)) break;
+                    Console.WriteLine("Received Data: " + received);
+                    if (!SendData("Received!")) break;
+                }
             }
         }
         public bool ReceiveAuthRequest()
@@ -91,6 +101,7 @@ namespace GSMLib
         public bool SendRAND()
         {
             authTriplet = Cryptography.GetAuthTriplet(clientKI);
+            encryptor.Initialise(authTriplet.KC);
             try
             {
                 clientSocket.Send(authTriplet.RAND);
@@ -145,14 +156,44 @@ namespace GSMLib
             return true;
         }
 
-        /*public bool ReceiveData()
-        {
 
+        public bool SendData(string data)
+        {
+            try
+            {
+                byte[] origData = Encoding.UTF8.GetBytes(data);
+                byte[] encrypted = encryptor.Encrypt(origData);
+                clientSocket.Send(encrypted);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in server sending data");
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            return true;
         }
 
-        public bool SendData()
+        public bool ReceiveData(out string data)
         {
+            try
+            {
+                byte[] encrypted = new byte[1024];
+                int len = clientSocket.Receive(encrypted);
+                Array.Resize<byte>(ref encrypted, len);
+                byte[] decrypted = encryptor.Decrypt(encrypted);
+                data = Encoding.UTF8.GetString(decrypted);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in client receiving data");
+                Console.WriteLine(ex.Message);
+                data = "";
+                return false;
+            }
+            return true;
+        }
 
-        }*/
+        
     }
 }

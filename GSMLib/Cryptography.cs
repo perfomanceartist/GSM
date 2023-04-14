@@ -25,6 +25,7 @@ namespace GSMLib
 
                 Initialise(initValue);
             }
+            
 
             public void Initialise(byte[] initValue)
             {

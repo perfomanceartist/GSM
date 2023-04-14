@@ -44,6 +44,42 @@ namespace GSMLib
 
         }
 
+        public bool SendData(string data)
+        {
+            try
+            {
+                byte[] origData = Encoding.UTF8.GetBytes(data);
+                byte[] encrypted = encryptor.Encrypt(origData);
+                stream.Write(encrypted);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in client sending data");
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            return true;
+        }
+
+        public bool ReceiveData(out string data)
+        {
+            try
+            {
+                byte[] encrypted = new byte[1024];
+                int len = stream.Read(encrypted);
+                Array.Resize<byte>(ref encrypted, len);
+                byte[] decrypted = encryptor.Decrypt(encrypted);
+                data = Encoding.UTF8.GetString(decrypted);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in client receiving data");
+                Console.WriteLine(ex.Message);
+                data = "";
+                return false;
+            }
+            return true;
+        }
 
         public bool Authenticate(string password)
         {
