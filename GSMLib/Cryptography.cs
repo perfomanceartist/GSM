@@ -174,7 +174,7 @@ namespace GSMLib
         public static AuthTriplet GetAuthTriplet(byte[] KI)
         {
             Random rnd = new Random();
-            byte[] seed = new byte[64];
+            byte[] seed = new byte[(int)AuthTripletLengths.RAND];
             rnd.NextBytes(seed);
 
             return GetAuthTriplet(seed, KI);
@@ -189,13 +189,20 @@ namespace GSMLib
 
             byte[] res = hash.ComputeHash(data);
 
-            byte[] KC = new byte[8];
-            byte[] SRES = new byte[12];
+            byte[] KC = new byte[(int)AuthTripletLengths.KC];
+            byte[] SRES = new byte[(int)AuthTripletLengths.SRES];
 
-            Array.Copy(res, 0, KC, 0, 8);
-            Array.Copy(res, 8, SRES, 0, 12);
+            Array.Copy(res, 0, KC, 0, (int)AuthTripletLengths.KC);
+            Array.Copy(res, (int)AuthTripletLengths.KC, SRES, 0, (int)AuthTripletLengths.SRES);
 
             return new AuthTriplet(seed, KC, SRES);
+        }
+
+        public enum AuthTripletLengths
+        {
+            RAND = 64,
+            KC = 8,
+            SRES = 12
         }
 
         public class AuthTriplet
@@ -206,9 +213,9 @@ namespace GSMLib
 
             public AuthTriplet()
             {
-                RAND = new byte[64];
-                KC = new byte[8];
-                SRES = new byte[12];
+                RAND = new byte[(int)AuthTripletLengths.RAND];
+                KC = new byte[(int)AuthTripletLengths.KC];
+                SRES = new byte[(int)AuthTripletLengths.SRES];
             }
             public AuthTriplet(byte[] rAND, byte[] kC, byte[] sRES)
             {

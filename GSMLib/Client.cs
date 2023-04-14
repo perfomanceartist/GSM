@@ -44,6 +44,16 @@ namespace GSMLib
 
         }
 
+
+        public bool Authenticate(string password)
+        {
+            if (!AuthRequest()) return false;
+            if (!ReceiveRAND()) return false;
+            if (!SendSRES(password)) return false;
+            if (!ReceiveAuthReply()) return false;
+            return true;
+        }
+
         public bool AuthRequest()
         {
             try
