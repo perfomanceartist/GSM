@@ -140,7 +140,7 @@ namespace GSMLib
                 {
                     if (cells[clocker] == v)
                     {
-                        for (int i = 1; i < cells.Length; i++)
+                        for (int i = cells.Length - 1; i> 0; i--)
                         {
                             cells[i] = cells[i - 1];
                         }
@@ -148,7 +148,7 @@ namespace GSMLib
                         bool newV = false;
                         foreach (int index in feedbacks)
                         {
-                            newV ^= cells[index];
+                            newV = newV ^ cells[index];
                         }
                         cells[0] = newV;
                     }
