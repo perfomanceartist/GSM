@@ -9,7 +9,7 @@ using static GSMLib.Cryptography;
 
 namespace GSMLib
 {
-    internal class Server
+    public class Server
     {
         string clientKI = "IBKS";
         TcpListener tcpListener;
@@ -48,6 +48,7 @@ namespace GSMLib
                 }
                 if (!AuthenticateClient())
                 {
+                    Console.WriteLine("Authentication was not successful");
                     clientSocket.Close();
                     continue;
                 }
@@ -59,8 +60,9 @@ namespace GSMLib
             byte[] data = new byte[64];
             try
             {
-                clientSocket.Receive(data);
-                string req = Encoding.UTF8.GetString(data);
+                int len = clientSocket.Receive(data);
+                string req = Encoding.UTF8.GetString(data, 0, len);
+                Console.WriteLine("Received request: " + req);
                 if (req != "Auth Request")
                 {
                     Console.WriteLine("Wrong Auth Request");
@@ -116,7 +118,7 @@ namespace GSMLib
                 return false;
             }
 
-            if (data.Length != (int)AuthTripletLengths.SRES)
+            if (data.Length < (int)AuthTripletLengths.SRES)
             {
                 Console.WriteLine("Length of received SRES is not enough");
                 return false;

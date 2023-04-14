@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GSMLib
 {
-    internal class Client
+    public class Client
     {
         TcpClient tcpClient;
         string serverAddress = "127.0.0.1";
@@ -88,7 +88,7 @@ namespace GSMLib
 
         public bool SendSRES(string KI)
         {
-            authTriplet = Cryptography.GetAuthTriplet(KI);
+            authTriplet = Cryptography.GetAuthTriplet(authTriplet.RAND, KI);
             encryptor.Initialise(authTriplet.KC);
 
             try
@@ -118,7 +118,7 @@ namespace GSMLib
                 Console.WriteLine(ex.Message);
                 return false;
             }
-            string answer = Encoding.UTF8.GetString(reply);
+            string answer = Encoding.UTF8.GetString(reply, 0, len);
             if (answer != "ok")
             {
                 Console.WriteLine("Authentication was not successful.");

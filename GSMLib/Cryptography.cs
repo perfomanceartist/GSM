@@ -165,6 +165,10 @@ namespace GSMLib
             }
         }
 
+        public static AuthTriplet GetAuthTriplet(byte[] seed, string KI)
+        {
+            return GetAuthTriplet(seed, Encoding.UTF8.GetBytes(KI));
+        }
 
         public static AuthTriplet GetAuthTriplet(string KI)
         {

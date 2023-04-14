@@ -5,6 +5,10 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSMLib", "GSMLib\GSMLib.csproj", "{EAAEBAEB-4EB6-46CA-97CD-E25F08CAA1C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSMClient", "GSMClient\GSMClient.csproj", "{B0045E05-4A7D-43B3-9618-B94F33E570A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSMServer", "GSMServer\GSMServer.csproj", "{683B6682-CC59-4CC1-8716-F33F8BBA3B44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{EAAEBAEB-4EB6-46CA-97CD-E25F08CAA1C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAAEBAEB-4EB6-46CA-97CD-E25F08CAA1C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAAEBAEB-4EB6-46CA-97CD-E25F08CAA1C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0045E05-4A7D-43B3-9618-B94F33E570A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0045E05-4A7D-43B3-9618-B94F33E570A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0045E05-4A7D-43B3-9618-B94F33E570A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0045E05-4A7D-43B3-9618-B94F33E570A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{683B6682-CC59-4CC1-8716-F33F8BBA3B44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{683B6682-CC59-4CC1-8716-F33F8BBA3B44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{683B6682-CC59-4CC1-8716-F33F8BBA3B44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{683B6682-CC59-4CC1-8716-F33F8BBA3B44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
